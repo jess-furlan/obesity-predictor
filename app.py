@@ -10,8 +10,8 @@ model = joblib.load("modelo_final/random_forest_model.pkl")
 scaler = joblib.load("modelo_final/standard_scaler.pkl")
 label_encoders = joblib.load("modelo_final/label_encoders.pkl")
 
+# Config do app
 st.set_page_config(page_title="Preditor de Obesidade", layout="centered")
-
 st.title("🩺 Sistema Preditivo de Obesidade")
 st.markdown("Preencha os dados abaixo para obter uma análise preditiva do nível de obesidade:")
 
@@ -20,7 +20,7 @@ st.markdown("Preencha os dados abaixo para obter uma análise preditiva do níve
 # ------------------------------
 with st.form("formulario_paciente"):
     genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
-    idade = st.number_input("Idade", min_value=1, max_value=100, value="")
+    idade = st.number_input("Idade", min_value=1, max_value=100, value=25)
     altura = st.number_input("Altura (em metros)", min_value=1.0, max_value=2.5, value=1.70)
     peso = st.number_input("Peso (em kg)", min_value=30.0, max_value=200.0, value=70.0)
     historico_familiar = st.selectbox("Algum familiar tem histórico de sobrepeso?", ["Sim", "Não"])
@@ -38,44 +38,65 @@ with st.form("formulario_paciente"):
     
     enviar = st.form_submit_button("🔍 Prever")
 
-# ------------------------------
-# Processamento e Previsão
-# ------------------------------
-if submitted:
-    # Criar dataframe com a entrada
-    input_data = pd.DataFrame([[
-        gender, age, height, weight, family_history, favc, fcvc, ncp, caec,
-        smoke, ch2o, scc, faf, tue, calc, mtrans
+# Dicionário de mapeamento reverso, pois o codigo original esta em ingles, e para melhorar a experiencia do usuário, resolvi tratar a questao do idioma no front.
+mapas = {
+    "Gender": {"Masculino": "Male", "Feminino": "Female"},
+    "family_history": {"Sim": "yes", "Não": "no"},
+    "FAVC": {"Sim": "yes", "Não": "no"},
+    "CAEC": {"Às vezes": "Sometimes", "Frequentemente": "Frequently", "Sempre": "Always", "Não": "no"},
+    "SMOKE": {"Sim": "yes", "Não": "no"},
+    "SCC": {"Sim": "yes", "Não": "no"},
+    "CALC": {"Não": "no", "Às vezes": "Sometimes", "Frequentemente": "Frequently", "Sempre": "Always"},
+    "MTRANS": {
+        "Transporte Público": "Public_Transportation",
+        "A pé": "Walking",
+        "Carro": "Automobile",
+        "Moto": "Motorbike",
+        "Bicicleta": "Bike"
+    }
+}
+
+# Processamento e predição
+if enviar:
+    # Substituir valores para o formato original do modelo
+    genero = mapas["Gender"][genero]
+    historico_familiar = mapas["family_history"][historico_familiar]
+    favc = mapas["FAVC"][favc]
+    caec = mapas["CAEC"][caec]
+    fuma = mapas["SMOKE"][fuma]
+    scc = mapas["SCC"][scc]
+    calc = mapas["CALC"][calc]
+    transporte = mapas["MTRANS"][transporte]
+
+    dados = pd.DataFrame([[
+        genero, idade, altura, peso, historico_familiar, favc, fcvc, ncp, caec,
+        fuma, ch2o, scc, faf, tue, calc, transporte
     ]], columns=[
         "Gender", "Age", "Height", "Weight", "family_history", "FAVC", "FCVC", "NCP", "CAEC",
         "SMOKE", "CH2O", "SCC", "FAF", "TUE", "CALC", "MTRANS"
     ])
 
-    # Codificar variáveis categóricas
+    # Codificação
     for col in label_encoders:
-        if col in input_data.columns:
-            input_data[col] = label_encoders[col].transform(input_data[col])
+        if col in dados.columns:
+            dados[col] = label_encoders[col].transform(dados[col])
 
-    # Criar variável IMC (BMI)
-    input_data["BMI"] = input_data["Weight"] / (input_data["Height"] ** 2)
+    dados["BMI"] = dados["Weight"] / (dados["Height"] ** 2)
+    col_numericas = ['Age', 'Height', 'Weight', 'FCVC', 'NCP', 'CH2O', 'FAF', 'TUE', 'BMI']
+    dados[col_numericas] = scaler.transform(dados[col_numericas])
 
-    # Padronizar dados numéricos
-    num_cols = ['Age', 'Height', 'Weight', 'FCVC', 'NCP', 'CH2O', 'FAF', 'TUE', 'BMI']
-    input_data[num_cols] = scaler.transform(input_data[num_cols])
+    # Predição
+    pred = model.predict(dados)[0]
+    resultado = label_encoders['Obesity'].inverse_transform([pred])[0]
 
-    # Fazer a previsão
-    pred = model.predict(input_data)[0]
-    pred_label = label_encoders['Obesity'].inverse_transform([pred])[0]
+    # Apresentação
+    st.subheader("🎯 Resultado da Análise:")
+    st.success(f"O modelo estimou que o paciente está classificado como: **{resultado.replace('_', ' ')}**")
 
-    # Exibir resultado
-    st.subheader("🎯 Resultado da Previsão:")
-    st.success(f"Nível estimado de obesidade: **{pred_label.replace('_', ' ')}**")
-
-    # Feedback básico
     st.subheader("📌 Recomendação:")
-    if "Obesity" in pred_label:
-        st.warning("Recomenda-se procurar um nutricionista e um profissional de saúde para acompanhamento personalizado.")
-    elif "Overweight" in pred_label:
-        st.info("Considere revisar seus hábitos alimentares e sua rotina de exercícios físicos.")
+    if "Obesity" in resultado:
+        st.warning("Recomenda-se procurar um nutricionista e médico especialista para avaliação clínica detalhada.")
+    elif "Overweight" in resultado:
+        st.info("Sinais de sobrepeso. Pode ser indicado ajustar hábitos alimentares e aumentar a prática de atividades físicas.")
     else:
-        st.success("Seu nível está dentro da normalidade, continue mantendo hábitos saudáveis!")
+        st.success("Nível dentro da normalidade. Continue mantendo um estilo de vida saudável!")
