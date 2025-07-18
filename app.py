@@ -102,14 +102,14 @@ rotulos_pt = {
 
 resultado_pt = rotulos_pt.get(resultado, resultado)
 
-    # Apresentação
-    st.subheader("🎯 Resultado da Análise:")
-    st.success(f"O modelo estimou que o paciente está classificado como: **{resultado_pt}**")
+# Apresentação
+st.subheader("🎯 Resultado da Análise:")
+st.success(f"O modelo estimou que o paciente está classificado como: **{resultado_pt}**")
 
-        st.subheader("📌 Recomendação:")
-        if "Obesity" in resultado:
-            st.warning("Recomenda-se procurar um nutricionista e médico especialista para avaliação clínica detalhada.")
-        elif "Overweight" in resultado:
-            st.info("Sinais de sobrepeso. Pode ser indicado ajustar hábitos alimentares e aumentar a prática de atividades físicas.")
-        else:
-            st.success("Nível dentro da normalidade. Continue mantendo um estilo de vida saudável!")
+    st.subheader("📌 Recomendação:")
+    if "Obesity" in resultado:
+        st.warning("Recomenda-se procurar um nutricionista e médico especialista para avaliação clínica detalhada.")
+    elif "Overweight" in resultado:
+        st.info("Sinais de sobrepeso. Pode ser indicado ajustar hábitos alimentares e aumentar a prática de atividades físicas.")
+    else:
+        st.success("Nível dentro da normalidade. Continue mantendo um estilo de vida saudável!")
