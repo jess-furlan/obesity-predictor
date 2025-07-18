@@ -12,31 +12,31 @@ label_encoders = joblib.load("modelo_final/label_encoders.pkl")
 
 st.set_page_config(page_title="Preditor de Obesidade", layout="centered")
 
-st.title("🩺 Preditor de Obesidade")
-st.markdown("Preencha os dados abaixo para obter uma previsão:")
+st.title("🩺 Sistema Preditivo de Obesidade")
+st.markdown("Preencha os dados abaixo para obter uma análise preditiva do nível de obesidade:")
 
 # ------------------------------
 # Formulário para entrada de dados
 # ------------------------------
-with st.form("input_form"):
-    gender = st.selectbox("Gênero", ["Male", "Female"])
-    age = st.slider("Idade", 10, 100, 25)
-    height = st.number_input("Altura (em metros)", min_value=1.0, max_value=2.5, value=1.70)
-    weight = st.number_input("Peso (em kg)", min_value=30.0, max_value=200.0, value=70.0)
-    family_history = st.selectbox("Histórico familiar de sobrepeso?", ["yes", "no"])
-    favc = st.selectbox("Consome alimentos calóricos frequentemente?", ["yes", "no"])
-    fcvc = st.slider("Frequência de vegetais na alimentação (0-3)", 0.0, 3.0, 2.0)
-    ncp = st.slider("Nº de refeições principais por dia", 1.0, 4.0, 3.0)
-    caec = st.selectbox("Come entre as refeições?", ["Sometimes", "Frequently", "Always", "no"])
-    smoke = st.selectbox("Fuma?", ["yes", "no"])
-    ch2o = st.slider("Quantidade de água por dia (litros)", 0.0, 3.0, 2.0)
-    scc = st.selectbox("Monitora calorias consumidas?", ["yes", "no"])
-    faf = st.slider("Frequência de atividade física (0-3)", 0.0, 3.0, 1.0)
-    tue = st.slider("Tempo com dispositivos eletrônicos (0-2)", 0.0, 2.0, 1.0)
-    calc = st.selectbox("Frequência de bebida alcoólica", ["no", "Sometimes", "Frequently", "Always"])
-    mtrans = st.selectbox("Meio de transporte mais utilizado", ["Public_Transportation", "Walking", "Automobile", "Motorbike", "Bike"])
+with st.form("formulario_paciente"):
+    genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
+    idade = st.number_input("Idade", min_value=1, max_value=100, value="")
+    altura = st.number_input("Altura (em metros)", min_value=1.0, max_value=2.5, value=1.70)
+    peso = st.number_input("Peso (em kg)", min_value=30.0, max_value=200.0, value=70.0)
+    historico_familiar = st.selectbox("Algum familiar tem histórico de sobrepeso?", ["Sim", "Não"])
+    favc = st.selectbox("Costuma consumir alimentos calóricos com frequência?", ["Sim", "Não"])
+    fcvc = st.slider("Frequência de consumo de vegetais (0-3)", 0.0, 3.0, 2.0)
+    ncp = st.slider("Número de refeições principais por dia", 1.0, 4.0, 3.0)
+    caec = st.selectbox("Costuma comer entre as refeições?", ["Às vezes", "Frequentemente", "Sempre", "Não"])
+    fuma = st.selectbox("Fuma?", ["Sim", "Não"])
+    ch2o = st.slider("Litros de água ingeridos por dia", 0.0, 3.0, 2.0)
+    scc = st.selectbox("Controla as calorias consumidas?", ["Sim", "Não"])
+    faf = st.slider("Frequência de atividade física na semana (0 a 3 vezes na semana)", 0.0, 3.0, 1.0)
+    tue = st.slider("Tempo diário com dispositivos eletrônicos (0 a 2hs)", 0.0, 2.0, 1.0)
+    calc = st.selectbox("Frequência de consumo de álcool", ["Não", "Às vezes", "Frequentemente", "Sempre"])
+    transporte = st.selectbox("Meio de transporte mais utilizado", ["Transporte Público", "A pé", "Carro", "Moto", "Bicicleta"])
     
-    submitted = st.form_submit_button("🔍 Prever Nível de Obesidade")
+    enviar = st.form_submit_button("🔍 Prever")
 
 # ------------------------------
 # Processamento e Previsão
