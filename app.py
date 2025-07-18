@@ -90,23 +90,22 @@ if enviar:
     resultado = label_encoders['Obesity'].inverse_transform([pred])[0]
 
     # Traduções dos níveis de obesidade
-rotulos_pt = {
-    "Insufficient_Weight": "Peso insuficiente",
-    "Normal_Weight": "Peso normal",
-    "Overweight_Level_I": "Sobrepeso nível I",
-    "Overweight_Level_II": "Sobrepeso nível II",
-    "Obesity_Type_I": "Obesidade tipo I",
-    "Obesity_Type_II": "Obesidade tipo II",
-    "Obesity_Type_III": "Obesidade tipo III"
-}
+    rotulos_pt = {
+        "Insufficient_Weight": "Peso insuficiente",
+        "Normal_Weight": "Peso normal",
+        "Overweight_Level_I": "Sobrepeso nível I",
+        "Overweight_Level_II": "Sobrepeso nível II",
+        "Obesity_Type_I": "Obesidade tipo I",
+        "Obesity_Type_II": "Obesidade tipo II",
+        "Obesity_Type_III": "Obesidade tipo III"
+    }    
+    resultado_pt = rotulos_pt.get(resultado, resultado)
 
-resultado_pt = rotulos_pt.get(resultado, resultado)
+    # Apresentação
+    st.subheader("🎯 Resultado da Análise:")
+    st.success(f"O modelo estimou que o paciente está classificado como: **{resultado_pt}**")
 
-# Apresentação
-st.subheader("🎯 Resultado da Análise:")
-st.success(f"O modelo estimou que o paciente está classificado como: **{resultado_pt}**")
-
-st.subheader("📌 Recomendação:")
+    st.subheader("📌 Recomendação:")
     if "Obesity" in resultado:
         st.warning("Recomenda-se procurar um nutricionista e médico especialista para avaliação clínica detalhada.")
     elif "Overweight" in resultado:
