@@ -106,7 +106,7 @@ resultado_pt = rotulos_pt.get(resultado, resultado)
 st.subheader("🎯 Resultado da Análise:")
 st.success(f"O modelo estimou que o paciente está classificado como: **{resultado_pt}**")
 
-    st.subheader("📌 Recomendação:")
+st.subheader("📌 Recomendação:")
     if "Obesity" in resultado:
         st.warning("Recomenda-se procurar um nutricionista e médico especialista para avaliação clínica detalhada.")
     elif "Overweight" in resultado:
