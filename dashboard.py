@@ -67,7 +67,7 @@ df_filt = df[df["Gender"].isin(genero) & df["Age_Group"].isin(faixa_etaria)]
 # 📈 Visão Geral
 if aba == "📈 Visão Geral":
     st.header("📊 Distribuição dos níveis de obesidade")
-    fig1 = px.histogram(df_filt, x="Obesity", color="Gender", facet_col="Age_Group", barmode="group",
+    fig1 = px.histogram(df_filt, x="Obesity", labels={"Gender": "Gênero", "Obesity": "Nível de Obesidade"}, color="Gender", facet_col="Age_Group", barmode="group",
                         category_orders={"Age_Group": ["<18", "18-30", "30-45", "45-60", "60+"]})
     st.plotly_chart(fig1, use_container_width=True)
     st.info("🔍 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
