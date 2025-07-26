@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # Estilo visual
 st.set_page_config(page_title="Dashboard Obesidade", layout="wide")
-st.markdown(\"\"\"
+st.markdown("""
     <style>
     .main { background-color: #f5f9ff; }
     h1, h2, h3 {
@@ -20,7 +20,7 @@ st.markdown(\"\"\"
         background-color: #ffffff;
     }
     </style>
-\"\"\", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # Carregar dados
 df = pd.read_csv("Obesity.csv")
