@@ -70,7 +70,7 @@ if aba == "📈 Visão Geral":
     fig1 = px.histogram(df_filt, x="Obesity", color="Gender", facet_col="Age_Group", barmode="group",
                         category_orders={"Age_Group": ["<18", "18-30", "30-45", "45-60", "60+"]})
     st.plotly_chart(fig1, use_container_width=True)
-    st.info("🔍 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
+    st.info("🔎 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
     
     st.subheader("📈 Média de IMC por Faixa Etária")
     st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean())
@@ -94,7 +94,7 @@ elif aba == "💡 Hábitos e Riscos":
     st.subheader("📊 Frequência de Consumo de Água por Obesidade")
     fig4 = px.box(df_filt, x="Obesity", y="CH2O", points="all")
     st.plotly_chart(fig4, use_container_width=True)
-    st.info("🔎Embora a ingestão média de água seja mais alta entre os indivíduos com obesidade tipo III, os níveis mais leves de obesidade (tipo II e sobrepeso) e peso normal estão associados a menor consumo hídrico, o que pode indicar que a hidratação adequada não está sendo consistentemente usada como prática preventiva nos estágios iniciais da obesidade.)
+    st.info("🔎 Embora a ingestão média de água seja mais alta entre os indivíduos com obesidade tipo III, os níveis mais leves de obesidade (tipo II e sobrepeso) e peso normal estão associados a menor consumo hídrico, o que pode indicar que a hidratação adequada não está sendo consistentemente usada como prática preventiva nos estágios iniciais da obesidade.)
 
     st.subheader("🧪 Correlação entre variáveis numéricas")
     corr = df_filt[["Age", "Height", "Weight", "BMI", "FAF", "TUE", "CH2O"]].corr()
@@ -115,7 +115,7 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
 
     st.subheader("📊 Hábitos Frequentes entre Obesos Graves")
     obesos = df_filt[df["Obesity"].isin([
-        "Obesity_Type_I", "Obesity_Type_II", "Obesity_Type_III"
+        "Obesidade I", "Obesidade II", "Obesidade III"
     ])]
     col1, col2 = st.columns(2)
 
