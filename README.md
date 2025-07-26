@@ -77,6 +77,20 @@ O modelo retorna:
 - joblib
 
 ---
+## ⚙️ Justificativa Técnica: Por que o projeto não utiliza Docker?
+Embora o Docker seja uma ferramenta amplamente adotada para empacotar aplicações e garantir portabilidade entre ambientes, a decisão de não utilizá-lo neste projeto foi tomada com base em critérios técnicos e estratégicos:
+
+✅ Deploy simplificado via Streamlit Cloud: a aplicação foi publicada diretamente na nuvem por meio do Streamlit Cloud, que já oferece um ambiente virtual isolado e compatível com o requirements.txt. Isso garante reprodutibilidade e isolamento sem a complexidade adicional do Docker.
+
+✅ Público-alvo não técnico: como o foco da solução é auxiliar profissionais da saúde, foi priorizada uma abordagem acessível, com uso via navegador, sem necessidade de instalação local ou familiaridade com containers.
+
+✅ Escopo monolítico e simples: o projeto consiste em uma única aplicação Streamlit, com pipeline de Machine Learning embarcada. Não há múltiplos serviços (ex: APIs, bancos de dados) que justifiquem uma arquitetura containerizada.
+
+✅ Reprodutibilidade garantida: todo o ambiente é controlado por meio do arquivo requirements.txt, o que assegura consistência de dependências tanto localmente quanto na nuvem.
+
+Caso o projeto venha a evoluir para um cenário mais complexo (ex: múltiplas aplicações, uso de APIs, banco de dados, CI/CD), a adoção de Docker será reavaliada conforme as boas práticas de MLOps.
+
+---
 
 ## ✍️ Autoria
 Desenvolvido por Jess Furlan
