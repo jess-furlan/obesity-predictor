@@ -73,7 +73,7 @@ if aba == "📈 Visão Geral":
     st.info("🔍 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
     
     st.subheader("📈 Média de IMC por Faixa Etária")
-    st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean().round(1))
+    st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean().round(1), labels={"Age_Group": "Faixa Etária"} )
     st.info("🔎 A faixa de 30 a 45 anos apresenta o maior IMC médio entre todas as faixas, com 31,48, indicando maior risco de obesidade severa justamente na idade produtiva. Essa faixa merece atenção prioritária para ações de prevenção e acompanhamento contínuo.")
 
     st.subheader("📊 Proporção de Gênero por Nível de Obesidade")
@@ -85,8 +85,8 @@ elif aba == "💡 Hábitos e Riscos":
     st.header("💡 Hábitos e Comportamentos Relacionados")
 
     st.subheader("⚖️ Atividade física vs Uso de dispositivos")
-    fig2 = px.scatter(df_filt, x="FAF", y=df_filt["TUE"].round(1), color="Obesity", symbol="Gender", size=df_filt["BMI"].round(1),
-                      labels={"FAF": "Atividade Física (0-3)", "TUE": "Tempo com Dispositivos (0-2)", "BMI": "IMC"})
+    fig2 = px.scatter(df_filt, x="FAF", y=df_filt["TUE"].round(1),  color="Obesity", symbol="Gender", size=df_filt["BMI"].round(1),
+                      labels={"FAF": "Atividade Física (0-3)", "TUE": "Tempo com Dispositivos (0-2)", "BMI": "IMC", "Gender": "Gênero", "Obesity": "Nível de Obesidade"})
     st.plotly_chart(fig2, use_container_width=True)
     st.warning("📉 Indivíduos com baixo nível de atividade física (FAF) e alto tempo de tela (TUE) concentram os níveis mais altos de obesidade.")
 
@@ -121,17 +121,17 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
         favc = obesos["FAVC"].value_counts(normalize=True) * 100
         caec = obesos["CAEC"].value_counts(normalize=True) * 100
         st.write("🔸 Consumo de alimentos calóricos")
-        st.dataframe(favc.rename("Percentual (%)"))
+        st.dataframe(favc.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
         st.write("🔸 Lanches entre refeições")
-        st.dataframe(caec.rename("Percentual (%)"))
+        st.dataframe(caec.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
 
     with col2:
         transp = obesos["MTRANS"].value_counts(normalize=True) * 100
         smoke = obesos["SMOKE"].value_counts(normalize=True) * 100
         st.write("🔸 Transporte mais utilizado")
-        st.dataframe(transp.rename("Percentual (%)"))
+        st.dataframe(transp.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
         st.write("🔸 Fuma?")
-        st.dataframe(smoke.rename("Percentual (%)"))
+        st.dataframe(smoke.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
 
     st.markdown("---")
     st.subheader("📌 Recomendações Clínicas")
