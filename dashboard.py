@@ -121,18 +121,22 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
     with col1:
         favc = obesos["FAVC"].value_counts(normalize=True) * 100
         caec = obesos["CAEC"].value_counts(normalize=True) * 100
+
         st.write("🔸 Consumo de alimentos calóricos")
-        st.dataframe(favc.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
+        st.dataframe(favc.round(2).rename("Percentual (%)").reset_index().rename(columns={"index": "Frequência"}))
+
         st.write("🔸 Lanches entre refeições")
-        st.dataframe(caec.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
+        st.dataframe(caec.round(2).rename("Percentual (%)").reset_index().rename(columns={"index": "Frequência"}))
 
     with col2:
         transp = obesos["MTRANS"].value_counts(normalize=True) * 100
         smoke = obesos["SMOKE"].value_counts(normalize=True) * 100
+
         st.write("🔸 Transporte mais utilizado")
-        st.dataframe(transp.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
+        st.dataframe(transp.round(2).rename("Percentual (%)").reset_index().rename(columns={"index": "Transporte"}))
+
         st.write("🔸 Fuma?")
-        st.dataframe(smoke.round(2).rename("Percentual (%)").applymap(lambda x: f"{x:.2f}".ljust(6)))
+        st.dataframe(smoke.round(2).rename("Percentual (%)").reset_index().rename(columns={"index": "Resposta"}))
 
     st.markdown("---")
     st.subheader("📌 Recomendações Clínicas")
@@ -142,7 +146,7 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
     - 🚶 Incentivar transporte ativo e atividade física leve.
     - 💧 Monitorar ingestão hídrica e promover orientação nutricional.
     """)
-
+    
 # Rodapé
 st.markdown("---")
 st.markdown("<center><small>Desenvolvido para o Tech Challenge • Pós-Tech FIAP • por Jess Furlan</small></center>", unsafe_allow_html=True)
