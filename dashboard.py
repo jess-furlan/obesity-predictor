@@ -73,7 +73,8 @@ if aba == "📈 Visão Geral":
     st.info("🔍 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
     
     st.subheader("📈 Média de IMC por Faixa Etária")
-    st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean().round(1), labels={"Age_Group": "Faixa Etária"} )
+    media_imc = df_filt.groupby("Age_Group")["BMI"].mean().round(1).rename_axis("Faixa Etária")
+    st.bar_chart(media_imc)
     st.info("🔎 A faixa de 30 a 45 anos apresenta o maior IMC médio entre todas as faixas, com 31,48, indicando maior risco de obesidade severa justamente na idade produtiva. Essa faixa merece atenção prioritária para ações de prevenção e acompanhamento contínuo.")
 
     st.subheader("📊 Proporção de Gênero por Nível de Obesidade")
