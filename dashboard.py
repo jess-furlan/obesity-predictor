@@ -73,11 +73,11 @@ if aba == "📈 Visão Geral":
     st.info("🔍 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
     
     st.subheader("📈 Média de IMC por Faixa Etária")
-    st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean())
+    st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean().round(1))
     st.info("🔎 A faixa de 30 a 45 anos apresenta o maior IMC médio entre todas as faixas, com 31,48, indicando maior risco de obesidade severa justamente na idade produtiva. Essa faixa merece atenção prioritária para ações de prevenção e acompanhamento contínuo.")
 
     st.subheader("📊 Proporção de Gênero por Nível de Obesidade")
-    st.plotly_chart(px.histogram(df_filt, x="Gender", color="Obesity", barmode="group"), use_container_width=True)
+    st.plotly_chart(px.histogram(df_filt, x="Gender", labels={"Gender": "Gênero", "Obesity": "Nível de Obesidade"}, color="Obesity", barmode="group"), use_container_width=True)
     st.info("🔎 Homens predominam nos níveis de obesidade tipo II (99,3%) e sobrepeso II (64,5%), enquanto mulheres estão altamente representadas nos casos de obesidade tipo III (99,7%) e peso insuficiente (63,6%). Isso evidencia padrões distintos de risco por gênero, que devem ser considerados em estratégias clínicas diferenciadas.")
 
 # 💡 Hábitos e Riscos
@@ -85,13 +85,13 @@ elif aba == "💡 Hábitos e Riscos":
     st.header("💡 Hábitos e Comportamentos Relacionados")
 
     st.subheader("⚖️ Atividade física vs Uso de dispositivos")
-    fig2 = px.scatter(df_filt, x="FAF", y="TUE", color="Obesity", symbol="Gender", size="BMI",
-                      labels={"FAF": "Atividade Física", "TUE": "Tempo com Dispositivos"})
+    fig2 = px.scatter(df_filt, x="FAF", y=df_filt["TUE"].round(1), color="Obesity", symbol="Gender", size=df_filt["BMI"].round(1),
+                      labels={"FAF": "Atividade Física (0-3)", "TUE": "Tempo com Dispositivos (0-2)", "BMI": "IMC"})
     st.plotly_chart(fig2, use_container_width=True)
     st.warning("📉 Indivíduos com baixo nível de atividade física (FAF) e alto tempo de tela (TUE) concentram os níveis mais altos de obesidade.")
 
     st.subheader("📊 Frequência de Consumo de Água por Obesidade")
-    fig4 = px.box(df_filt, x="Obesity", y="CH2O", points="all")
+    fig4 = px.box(df_filt, x="Obesity", y="CH2O", labels={"CH2O": "Consumo de Água (litros)"}, points="all")
     st.plotly_chart(fig4, use_container_width=True)
     st.info("🔎 Embora a ingestão média de água seja mais alta entre os indivíduos com obesidade tipo III, os níveis mais leves de obesidade (tipo II e sobrepeso) e peso normal estão associados a menor consumo hídrico, o que pode indicar que a hidratação adequada não está sendo consistentemente usada como prática preventiva nos estágios iniciais da obesidade.")
 
