@@ -135,12 +135,12 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
 
     st.markdown("---")
     st.subheader("📌 Recomendações Clínicas")
-    st.markdown(\"\"\"
+    st.markdown("""
     - 🧬 Histórico familiar positivo + maus hábitos = **alto risco**.
     - 🍟 Reduzir consumo calórico e beliscos fora de hora.
     - 🚶 Incentivar transporte ativo e atividade física leve.
     - 💧 Monitorar ingestão hídrica e promover orientação nutricional.
-    \"\"\")
+    """)
 
 # Rodapé
 st.markdown("---")
