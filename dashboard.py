@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # Estilo visual
 st.set_page_config(page_title="Dashboard Obesidade", layout="wide")
-st.markdown("""
+st.markdown(\"\"\"
     <style>
     .main { background-color: #f5f9ff; }
     h1, h2, h3 {
@@ -20,7 +20,7 @@ st.markdown("""
         background-color: #ffffff;
     }
     </style>
-""", unsafe_allow_html=True)
+\"\"\", unsafe_allow_html=True)
 
 # Carregar dados
 df = pd.read_csv("Obesity.csv")
@@ -70,7 +70,7 @@ if aba == "📈 Visão Geral":
     fig1 = px.histogram(df_filt, x="Obesity", color="Gender", facet_col="Age_Group", barmode="group",
                         category_orders={"Age_Group": ["<18", "18-30", "30-45", "45-60", "60+"]})
     st.plotly_chart(fig1, use_container_width=True)
-    st.info("🔎 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
+    st.info("🔍 A faixa de 30-45 anos apresenta uma maior concentração de casos graves de obesidade, especialmente entre indivíduos com histórico familiar positivo.")
     
     st.subheader("📈 Média de IMC por Faixa Etária")
     st.bar_chart(df_filt.groupby("Age_Group")["BMI"].mean())
@@ -79,7 +79,6 @@ if aba == "📈 Visão Geral":
     st.subheader("📊 Proporção de Gênero por Nível de Obesidade")
     st.plotly_chart(px.histogram(df_filt, x="Gender", color="Obesity", barmode="group"), use_container_width=True)
     st.info("🔎 Homens predominam nos níveis de obesidade tipo II (99,3%) e sobrepeso II (64,5%), enquanto mulheres estão altamente representadas nos casos de obesidade tipo III (99,7%) e peso insuficiente (63,6%). Isso evidencia padrões distintos de risco por gênero, que devem ser considerados em estratégias clínicas diferenciadas.")
-
 
 # 💡 Hábitos e Riscos
 elif aba == "💡 Hábitos e Riscos":
@@ -94,7 +93,7 @@ elif aba == "💡 Hábitos e Riscos":
     st.subheader("📊 Frequência de Consumo de Água por Obesidade")
     fig4 = px.box(df_filt, x="Obesity", y="CH2O", points="all")
     st.plotly_chart(fig4, use_container_width=True)
-    st.info("🔎 Embora a ingestão média de água seja mais alta entre os indivíduos com obesidade tipo III, os níveis mais leves de obesidade (tipo II e sobrepeso) e peso normal estão associados a menor consumo hídrico, o que pode indicar que a hidratação adequada não está sendo consistentemente usada como prática preventiva nos estágios iniciais da obesidade.)
+    st.info("🔎 Embora a ingestão média de água seja mais alta entre os indivíduos com obesidade tipo III, os níveis mais leves de obesidade (tipo II e sobrepeso) e peso normal estão associados a menor consumo hídrico, o que pode indicar que a hidratação adequada não está sendo consistentemente usada como prática preventiva nos estágios iniciais da obesidade.")
 
     st.subheader("🧪 Correlação entre variáveis numéricas")
     corr = df_filt[["Age", "Height", "Weight", "BMI", "FAF", "TUE", "CH2O"]].corr()
@@ -103,7 +102,6 @@ elif aba == "💡 Hábitos e Riscos":
     st.pyplot(fig3)
     st.success("✅ Correlações mostram que peso e altura são os principais fatores que impactam diretamente o IMC, enquanto maior tempo com dispositivos eletrônicos está inversamente relacionado com atividade física.")
     
-
 # 🩺 Recomendações e Perfis de Risco
 elif aba == "🩺 Recomendações e Perfis de Risco":
     st.header("🩺 Perfis de Risco com Base em Histórico Familiar")
@@ -114,7 +112,7 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
     st.bar_chart(risco_hist.T)
 
     st.subheader("📊 Hábitos Frequentes entre Obesos Graves")
-    obesos = df_filt[df["Obesity"].isin([
+    obesos = df_filt[df_filt["Obesity"].isin([
         "Obesidade I", "Obesidade II", "Obesidade III"
     ])]
     col1, col2 = st.columns(2)
@@ -137,13 +135,16 @@ elif aba == "🩺 Recomendações e Perfis de Risco":
 
     st.markdown("---")
     st.subheader("📌 Recomendações Clínicas")
-    st.markdown("""
+    st.markdown(\"\"\"
     - 🧬 Histórico familiar positivo + maus hábitos = **alto risco**.
     - 🍟 Reduzir consumo calórico e beliscos fora de hora.
     - 🚶 Incentivar transporte ativo e atividade física leve.
     - 💧 Monitorar ingestão hídrica e promover orientação nutricional.
-    """)
+    \"\"\")
 
 # Rodapé
 st.markdown("---")
 st.markdown("<center><small>Desenvolvido para o Tech Challenge • Pós-Tech FIAP • por Jess Furlan</small></center>", unsafe_allow_html=True)
+
+
+
