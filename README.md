@@ -13,6 +13,44 @@ Ajudar **profissionais da saúde** a identificar de forma automatizada e prevent
 
 ---
 
+## 💡 Funcionalidades
+
+- Previsão de nível de obesidade com base em 16 variáveis.
+- Feedback e recomendações personalizadas para o paciente.
+- Dashboard com:
+  - Comparativos por faixa etária e gênero.
+  - Perfis de risco baseados em hábitos e histórico familiar.
+  - Análises de correlação e padrões comportamentais.
+
+---
+
+## 🧠 Modelo de Machine Learning
+
+- Algoritmo Random Forest Classifier
+- Acurácia de 99,19% com validação cruzada (Stratified K-Fold)
+- Feature Engineering:
+  - Criação da variável IMC (BMI)
+  - Pré-processamento: `LabelEncoder` + `StandardScaler`
+
+---
+
+## 📂 Estrutura do Projeto
+```bash
+obesity-predictor/
+├── modelo_final/
+│   ├── random_forest_model.pkl
+│   ├── standard_scaler.pkl
+│   └── label_encoders.pkl
+├── notebook/
+    └── modelagem_obesidade.ipynb
+├── Obesity.csv
+├── app.py                  # Sistema preditivo
+├── dashboard.py            # Análise interativa de dados
+├── requirements.txt
+└── README.md
+```
+---
+
 ## 💻 Como executar o projeto localmente
 
 1. Clone este repositório:
@@ -31,34 +69,14 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
----
-
-## 🧠 Modelo de Machine Learning
-
-- Random Forest Classifier
-- Acurácia de 99,19% com validação cruzada (Stratified K-Fold)
-- Feature derivada: IMC (BMI = Peso / Altura²)
-- Pré-processamento: LabelEncoder + StandardScaler
-
----
-
-## 📂 Estrutura do Projeto
+4. Ou visualize a análise exploratória:
 ```bash
-obesity-predictor/
-├── modelo_final/
-│   ├── random_forest_model.pkl
-│   ├── standard_scaler.pkl
-│   └── label_encoders.pkl
-├── app.py
-├── requirements.txt
-└── README.md
+streamlit run dashboard.py
 ```
 ---
 
 ## 🌐 Acesse o App Online
-➡️ Acesse o app online:
-
-https://jess-furlan-obesity-predictor.streamlit.app
+🔍 Aplicativo Preditivo: [Streamlit App](https://jess-furlan-obesity-predictor.streamlit.app)
 
 ---
 
@@ -69,12 +87,25 @@ O modelo retorna:
 
 ---
 
+## 🌐 Acesse o Dashboard Online
+📈 Dashboard Analítico: [Dashboard Interativo](https://jess-furlan-obesity-dashboard.streamlit.app)
+
+---
+
+## 📌 Destaques do Dashboard
+- Faixa de 30 a 45 anos tem maior média de IMC (31,48).
+- Homens predominam na obesidade tipo II, mulheres na tipo III.
+- Alta correlação entre uso de dispositivos e menor atividade física.
+- Comportamentos como beliscar entre refeições e não controlar calorias estão fortemente presentes entre indivíduos com obesidade tipo III.
+
+---
+
 ## 📊 Tecnologias Utilizadas
-- Python
-- Streamlit
-- scikit-learn
-- pandas
-- joblib
+- Python (pandas, numpy, scikit-learn, joblib)
+- Streamlit (interfaces interativas)
+- Plotly, Matplotlib, Seaborn (visualização de dados)
+- Jupyter Notebook (modelagem exploratória)
+- XGBoost e LightGBM (testes comparativos de modelos)
 
 ---
 ## ⚙️ Justificativa Técnica: Por que o projeto não utiliza Docker?
